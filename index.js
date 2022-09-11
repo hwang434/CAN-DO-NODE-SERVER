@@ -10,10 +10,7 @@ const io = socketIO(server);
 
 io.on('connection', (socket) => {
   console.log("user connect");
-  // 좋아요 누른 사람
-  var ip = require("ip");
-  console.dir ( ip.address() ); 
-  
+  // 좋아요 누른 사람  
   socket.on("like", function(data) {
     // 좋아요 받을 사람 tt2rf
   
