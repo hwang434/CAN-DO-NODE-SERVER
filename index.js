@@ -1,13 +1,18 @@
-const { json } = require('body-parser');
+const express = require('express');
+const socketIO = require('socket.io');
+const PORT = process.env.PORT || 3000;
+const INDEX = '/index.html';
 
-var app = require('express')();
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
+const server = express()
+  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
+const io = socketIO(server);
 
 io.on('connection', (socket) => {
   console.log("user connect");
   // 좋아요 누른 사람
-
+  var ip = require("ip");
+  console.dir ( ip.address() ); 
   
   socket.on("like", function(data) {
     // 좋아요 받을 사람 tt2rf
@@ -19,11 +24,4 @@ io.on('connection', (socket) => {
   socket.on("disconnect", (socket) => {
     console.log("user discconect");
   });
-});
-
-server.listen(8080, function(){
-  console.log("server on 8080");
-  //
-  var ip = require("ip");
-  console.dir ( ip.address() ); 
 });
